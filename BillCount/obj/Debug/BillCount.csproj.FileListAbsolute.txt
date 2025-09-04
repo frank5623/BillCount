@@ -1,0 +1,10 @@
+C:\60g\MakeTest\BillCount\BillCount\obj\Debug\BillCount.csprojAssemblyReference.cache
+C:\60g\MakeTest\BillCount\BillCount\obj\Debug\BillCount.Form1.resources
+C:\60g\MakeTest\BillCount\BillCount\obj\Debug\BillCount.Properties.Resources.resources
+C:\60g\MakeTest\BillCount\BillCount\obj\Debug\BillCount.csproj.GenerateResource.cache
+C:\60g\MakeTest\BillCount\BillCount\obj\Debug\BillCount.csproj.CoreCompileInputs.cache
+C:\60g\MakeTest\BillCount\BillCount\bin\Debug\BillCount.exe.config
+C:\60g\MakeTest\BillCount\BillCount\bin\Debug\BillCount.exe
+C:\60g\MakeTest\BillCount\BillCount\bin\Debug\BillCount.pdb
+C:\60g\MakeTest\BillCount\BillCount\obj\Debug\BillCount.exe
+C:\60g\MakeTest\BillCount\BillCount\obj\Debug\BillCount.pdb
