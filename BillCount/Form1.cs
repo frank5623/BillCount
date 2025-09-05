@@ -25,15 +25,16 @@ namespace BillCount
             comboBox1.SelectedIndex = 0;
             update();
         }
-        public void tryinput()
+        public void tryinput() 
         {
             string filePath = Path.Combine(Application.StartupPath, "Data", "records.txt");
+            
             textBox3.Text = "";
 
-            string date = dateTimePicker1.Text;
+            string date = dateTimePicker1.Text; //日期
             ///////////////////////////////////////////
             string status = "";
-            ///////////////////////////////////////////
+            
             if (comboBox1.SelectedItem != null)
             {
                 status = comboBox1.SelectedItem.ToString();
@@ -45,6 +46,7 @@ namespace BillCount
             }
             ///////////////////////////////////////////
             string classify = "";
+
             if (comboBox2.SelectedItem != null)
             {
                 classify = comboBox2.SelectedItem.ToString();
@@ -56,6 +58,7 @@ namespace BillCount
             }   
             ///////////////////////////////////////////
             int money = 0;
+
             if (textBox1.Text != "")
             {
                 money = Convert.ToInt32(textBox1.Text);
@@ -70,8 +73,8 @@ namespace BillCount
 
             
             textBox3.Text += date + "\t" + status + "\t" + classify + "\t" + money + "\t" + notes + "\t";
-            
         }
+
         public void tryinsert(TextBox tt)
         {
             try
@@ -95,8 +98,6 @@ namespace BillCount
                     File.AppendAllText(filePath, newContent + Environment.NewLine);
                     MessageBox.Show("新增成功!!");
                 }
-                
-                
             }
             catch(Exception ex)
             {
@@ -105,8 +106,6 @@ namespace BillCount
         }
         private void Button1_Click(object sender, EventArgs e)
         {
-            
-            
             tryinput();
             
             tryinsert(textBox3);
@@ -179,9 +178,7 @@ namespace BillCount
         }
         private void Button2_Click(object sender, EventArgs e)
         {
-
             update();
-
         }
 
         private void Button3_Click(object sender, EventArgs e)
@@ -201,7 +198,6 @@ namespace BillCount
             File.WriteAllText(filePath, content);
 
             update();
-            
         }
     }
 }

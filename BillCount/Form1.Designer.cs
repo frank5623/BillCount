@@ -139,7 +139,7 @@
             this.textBox3.Location = new System.Drawing.Point(388, 195);
             this.textBox3.Multiline = true;
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(284, 208);
+            this.textBox3.Size = new System.Drawing.Size(284, 81);
             this.textBox3.TabIndex = 12;
             // 
             // comboBox2
@@ -161,9 +161,9 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(87, 366);
+            this.button2.Location = new System.Drawing.Point(0, 366);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(99, 37);
+            this.button2.Size = new System.Drawing.Size(89, 37);
             this.button2.TabIndex = 16;
             this.button2.Text = "刷新";
             this.button2.UseVisualStyleBackColor = true;
@@ -182,9 +182,9 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(202, 366);
+            this.button3.Location = new System.Drawing.Point(95, 366);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(99, 37);
+            this.button3.Size = new System.Drawing.Size(89, 37);
             this.button3.TabIndex = 18;
             this.button3.Text = "清空";
             this.button3.UseVisualStyleBackColor = true;
