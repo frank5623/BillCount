@@ -25,10 +25,8 @@ namespace BillCount
             comboBox1.SelectedIndex = 0;
             update();
         }
-        public void tryinput() 
+        public void tryinput()
         {
-            string filePath = Path.Combine(Application.StartupPath, "Data", "records.txt");
-            
             textBox3.Text = "";
 
             string date = dateTimePicker1.Text; //日期
@@ -59,26 +57,34 @@ namespace BillCount
             ///////////////////////////////////////////
             int money = 0;
 
-            if (textBox1.Text != "")
+            if (textBox1.Text.Trim() != "")
             {
-                money = Convert.ToInt32(textBox1.Text);
+                try
+                {
+                    money = Convert.ToInt32(textBox1.Text);
+                }catch(Exception ex)
+                {
+                    MessageBox.Show("金額:"+ex.Message);
+                    return;
+                }
             }
             else
             {
                 MessageBox.Show("請先輸入金額！");
                 return;
-            }   
+            }
             ///////////////////////////////////////////
-            string notes = textBox2.Text;
+            string notes = "";
+            notes=textBox2.Text;
 
-            
             textBox3.Text += date + "\t" + status + "\t" + classify + "\t" + money + "\t" + notes + "\t";
         }
 
         public void tryinsert(TextBox tt)
         {
             try
-            {
+            { 
+                //需要分開用所以才分兩段
                 string folderPath = Path.Combine(Application.StartupPath, "Data"); // 或直接 "Data"
                 string filePath = Path.Combine(folderPath, "records.txt");
 
@@ -153,7 +159,10 @@ namespace BillCount
 
                 // 讀取所有行
                 string[] lines = File.ReadAllLines(filePath);
-
+                /* line 不用new string[] 也能用
+                for(int i=0;i<lines.Length;i++)
+                    textBox3.Text += lines[i] +"\r\n";
+                */
                 if (lines.Length > 0)
                 {
                     // 第一行當標題
@@ -191,7 +200,7 @@ namespace BillCount
             {
                 Directory.CreateDirectory(folderPath);
             }
-            string content = "日期	支出/收入	分類	金額	備註\r\n";
+            string content = "日期	支出/收入	分類  	金額	    備註\r\n";
 
             
             // 單存寫入 (覆蓋原本內容)
