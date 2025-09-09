@@ -62,6 +62,11 @@ namespace BillCount
                 try
                 {
                     money = Convert.ToInt32(textBox1.Text);
+                    if (money < 0)
+                    {
+                        MessageBox.Show("請輸入整數!!","error",MessageBoxButtons.OK,MessageBoxIcon.Asterisk);
+                        return;
+                    }
                 }catch(Exception ex)
                 {
                     MessageBox.Show("金額:"+ex.Message);
@@ -83,26 +88,27 @@ namespace BillCount
         public void tryinsert(TextBox tt)
         {
             try
-            { 
+            {
                 //需要分開用所以才分兩段
-                string folderPath = Path.Combine(Application.StartupPath, "Data"); // 或直接 "Data"
+                string folderPath = Path.Combine(Application.StartupPath, "Data");
                 string filePath = Path.Combine(folderPath, "records.txt");
 
-                // 確保資料夾存在
-                if (!Directory.Exists(folderPath))
-                {
+                // 資料夾不存在，建一個資料夾
+                if (!Directory.Exists(folderPath)) {
                     Directory.CreateDirectory(folderPath);
                 }
+                   
+                
+                string content = tt.Text;
 
-                string newContent = tt.Text;
-                if(string.IsNullOrEmpty(newContent))
+                //if (content == "")
+                if(string.IsNullOrEmpty(content))
                 {
                     return;
                 }
                 else
                 {
-                    File.AppendAllText(filePath, newContent + Environment.NewLine);
-                    MessageBox.Show("新增成功!!");
+                    File.AppendAllText(filePath, content+Environment.NewLine);
                 }
             }
             catch(Exception ex)
@@ -159,21 +165,15 @@ namespace BillCount
 
                 // 讀取所有行
                 string[] lines = File.ReadAllLines(filePath);
-                /* line 不用new string[] 也能用
-                for(int i=0;i<lines.Length;i++)
-                    textBox3.Text += lines[i] +"\r\n";
-                */
+                
                 if (lines.Length > 0)
                 {
-                    // 第一行當標題
-                    string[] headers = lines[0].Split('\t'); // 用 Tab 分隔
-                    foreach (string header in headers)
+                    string[] headers = lines[0].Split('\t');
+                    foreach(string header in headers)
                     {
                         dataGridView1.Columns.Add(header, header);
                     }
-
-                    // 其餘行當資料
-                    for (int i = 1; i < lines.Length; i++)
+                    for(int i = 1; i < lines.Length; i++)
                     {
                         string[] cells = lines[i].Split('\t');
                         dataGridView1.Rows.Add(cells);
@@ -207,6 +207,86 @@ namespace BillCount
             File.WriteAllText(filePath, content);
 
             update();
+        }
+
+        private void Button4_Click(object sender, EventArgs e)
+        {
+            string filePath = Path.Combine(Application.StartupPath, "Data", "records.txt");
+
+            if (!File.Exists(filePath))
+            {
+                MessageBox.Show("找不到路徑中檔案~","無話可說",MessageBoxButtons.RetryCancel,MessageBoxIcon.Hand,MessageBoxDefaultButton.Button1);
+                return;
+            }
+                
+
+            string[] lines = File.ReadAllLines(filePath);
+
+            if (lines.Length <= 1)
+                return; // 檔案只有欄位或空檔案
+
+            // 第一行是欄位
+            string header = lines[0];
+
+            // 從第二行開始處理
+            var sorted = lines
+                .Skip(1) // 跳過欄位行
+                .Select(line => line.Split('\t')) // 切成欄位陣列
+                .Where(parts => parts.Length >= 5) // 確保資料正確
+                .OrderBy(parts => DateTime.Parse(parts[0])); // 依日期排序
+
+            // 清空 DataGridView
+            dataGridView1.Rows.Clear();
+
+            // 放入排序後資料
+            foreach (var parts in sorted)
+            {
+                dataGridView1.Rows.Add(parts[0], parts[1], parts[2], parts[3], parts[4]);
+            }
+        }
+
+        private void Button5_Click(object sender, EventArgs e)
+        {
+            string filePath = Path.Combine(Application.StartupPath, "Data", "records.txt");
+
+            if (!File.Exists(filePath))
+                return;
+
+            string[] lines = File.ReadAllLines(filePath);
+
+            if (lines.Length <= 1)
+                return; // 檔案只有欄位或空檔案
+
+            // 取得本月份
+            int currentYear = DateTime.Now.Year;
+            int currentMonth = DateTime.Now.Month;
+
+            // 第一行是欄位
+            string header = lines[0];
+
+            var filtered = lines
+                .Skip(1) // 跳過欄位
+                .Select(line => line.Split('\t')) // 切成欄位陣列
+                .Where(parts => parts.Length >= 5)
+                .Where(parts =>
+                {
+                    DateTime dt;
+                    if (DateTime.TryParse(parts[0], out dt))
+                    {
+                        return dt.Year == currentYear && dt.Month == currentMonth;
+                    }
+                    return false;
+                })
+                .OrderBy(parts => DateTime.Parse(parts[0])); // 依日期排序
+
+            // 清空 DataGridView
+            dataGridView1.Rows.Clear();
+
+            // 放入資料
+            foreach (var parts in filtered)
+            {
+                dataGridView1.Rows.Add(parts[0], parts[1], parts[2], parts[3], parts[4]);
+            }
         }
     }
 }
